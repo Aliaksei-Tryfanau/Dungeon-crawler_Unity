@@ -16,17 +16,23 @@ public class Player : MonoBehaviour
     private bool _resetJump = false;
     private PlayerAnimation _playerAnimation;
     private SpriteRenderer _sprite;
+    private SpriteRenderer _swordSprite;
 
     void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _sprite = GetComponentInChildren<SpriteRenderer>();
+        _swordSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
         Movement();
+        if (Input.GetMouseButtonDown(0) && IsGrounded())
+        {
+            _playerAnimation.Attack();
+        }
     }
 
     private void Movement()
@@ -53,10 +59,22 @@ public class Player : MonoBehaviour
         if (move > 0)
         {
             _sprite.flipX = false;
+            _swordSprite.flipX = false;
+            _swordSprite.flipY = false;
+
+            Vector3 newPos = _swordSprite.transform.localPosition;
+            newPos.x = 1.01f;
+            _swordSprite.transform.localPosition = newPos;
         }
         else if (move < 0)
         {
             _sprite.flipX = true;
+            _swordSprite.flipX = true;
+            _swordSprite.flipY = true;
+
+            Vector3 newPos = _swordSprite.transform.localPosition;
+            newPos.x = -1.01f;
+            _swordSprite.transform.localPosition = newPos;
         }
     }
 
