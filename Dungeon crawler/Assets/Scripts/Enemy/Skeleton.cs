@@ -15,16 +15,6 @@ public class Skeleton : Enemy, IDamageable
     public override void Movement()
     {
         base.Movement();
-
-        Vector3 direction = player.transform.position - transform.position;
-        if (direction.x > 0 && anim.GetBool("InCombat") == true)
-        {
-            sprite.flipX = false;
-        }
-        else if (direction.x < 0 && anim.GetBool("InCombat") == true)
-        {
-            sprite.flipX = true;
-        }
     }
 
 
@@ -37,7 +27,8 @@ public class Skeleton : Enemy, IDamageable
 
         if (Health < 1)
         {
-            Destroy(gameObject);
+            isDead = true;
+            anim.SetTrigger("Death");
         }
     }
 }
