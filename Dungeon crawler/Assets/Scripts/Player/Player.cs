@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour, IDamageable
     void Update()
     {
         Movement();
-        if (Input.GetMouseButtonDown(0) && IsGrounded())
+        if (CrossPlatformInputManager.GetButtonDown("A_Button") && IsGrounded())
         {
             _playerAnimation.Attack();
         }
@@ -42,12 +43,12 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Movement()
     {
-        float move = Input.GetAxisRaw("Horizontal");
+        float move = CrossPlatformInputManager.GetAxis("Horizontal");
         _grounded = IsGrounded();
 
         Flip(move);
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (CrossPlatformInputManager.GetButtonDown("B_Button") || Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             StartCoroutine(ResetJump());
